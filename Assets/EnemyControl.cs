@@ -14,6 +14,7 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] private float attackCooldown = 1f;
 
     private PlayerHealth playerHealth;
+    private EnemyHealthBar enemyHealthBar;
     private bool canAttack = true;
 
     private void Start()
@@ -69,10 +70,31 @@ public class EnemyControl : MonoBehaviour
     public void TakeDamage(float damageAmount)
     {
         health -= damageAmount;
+        Debug.Log("Enemy took damage. New health: " + health);
+
+        if (enemyHealthBar != null)
+        {
+            enemyHealthBar.ChangeActualHealth(health);
+            Debug.Log("Health bar updated to: " + health);
+        }
+        else
+        {
+            Debug.LogWarning("EnemyHealthBar is not assigned!");
+        }
 
         if (health <= 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void SetEnemyHealthBar(EnemyHealthBar enemyBar)
+    {
+        enemyHealthBar = enemyBar;
+        if (enemyHealthBar != null)
+        {
+            enemyHealthBar.SetHealth(maxHealth);
+            Debug.Log("Enemy health bar set with max health: " + maxHealth);
         }
     }
 }

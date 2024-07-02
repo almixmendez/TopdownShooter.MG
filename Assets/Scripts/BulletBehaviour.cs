@@ -27,12 +27,12 @@ public class BulletBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Enemy enemyComponent = collision.gameObject.GetComponent<Enemy>();
+        EnemyControl enemyComponent = collision.gameObject.GetComponent<EnemyControl>();
 
-        //if (enemyComponent != null)
-        //{
-        //    enemyComponent.TakeDamage(damage);
-        //}
+        if (enemyComponent != null)
+        {
+            enemyComponent.TakeDamage(damage);
+        }
 
         Destroy(gameObject);
     }
