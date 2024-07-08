@@ -6,7 +6,6 @@ public class EnemyControl : MonoBehaviour
 {
     [SerializeField] private float health = 3f;
     [SerializeField] private float maxHealth = 3f;
-
     [SerializeField] private float speed;
     [SerializeField] private float minDistance;
     [SerializeField] private Transform player;
@@ -14,7 +13,6 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] private float attackCooldown = 1f;
 
     private PlayerHealth playerHealth;
-    private EnemyHealthBar enemyHealthBar;
     private bool canAttack = true;
 
     private void Start()
@@ -25,6 +23,7 @@ public class EnemyControl : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
         }
+
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
 
@@ -41,23 +40,19 @@ public class EnemyControl : MonoBehaviour
             {
                 transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
             }
-            else
-            {
-                if (canAttack)
-                {
-                    Attack();
-                    StartCoroutine(AttackCooldown());
-                }
-            }
         }
     }
 
     private void Attack()
     {
+        canAttack = true;
+
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(damageAmount);
         }
+
+        StartCoroutine(AttackCooldown());
     }
 
     private IEnumerator AttackCooldown()
@@ -72,29 +67,18 @@ public class EnemyControl : MonoBehaviour
         health -= damageAmount;
         Debug.Log("Enemy took damage. New health: " + health);
 
-        if (enemyHealthBar != null)
-        {
-            enemyHealthBar.ChangeActualHealth(health);
-            Debug.Log("Health bar updated to: " + health);
-        }
-        else
-        {
-            Debug.LogWarning("EnemyHealthBar is not assigned!");
-        }
-
         if (health <= 0)
         {
             Destroy(gameObject);
         }
     }
 
-    public void SetEnemyHealthBar(EnemyHealthBar enemyBar)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        enemyHealthBar = enemyBar;
-        if (enemyHealthBar != null)
+        if (collision.gameObject.CompareTag("Player") && canAttack)
         {
-            enemyHealthBar.SetHealth(maxHealth);
-            Debug.Log("Enemy health bar set with max health: " + maxHealth);
+            Debug.Log("Choqué al player");
+            Attack();
         }
     }
 }
