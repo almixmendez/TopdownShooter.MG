@@ -18,11 +18,11 @@ public class Shooting : MonoBehaviour
 
     private void Update()
     {
-        // Weapon rotation (Aim)
-        Vector3 mousePos = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, /*cam.nearClipPlane*/ cam.transform.position.z - transform.position.z));
-        Vector3 direction = mousePos - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle/*+ 90f*/, Vector3.forward);
+        //// Weapon rotation (Aim)
+        //Vector3 mousePos = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, /*cam.nearClipPlane*/ cam.transform.position.z - transform.position.z));
+        //Vector3 direction = mousePos - transform.position;
+        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //transform.rotation = Quaternion.AngleAxis(angle/*+ 90f*/, Vector3.forward);
 
         // Shooting
         if (!canFire)
