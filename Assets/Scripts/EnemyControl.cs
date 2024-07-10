@@ -29,7 +29,7 @@ public class EnemyControl : MonoBehaviour
 
     void Update()
     {
-        Follow();
+        //Follow();
     }
 
     private void Follow()
